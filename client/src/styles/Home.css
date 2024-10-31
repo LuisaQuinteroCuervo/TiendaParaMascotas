@@ -1,0 +1,114 @@
+.Home{
+    width: 100%;
+    height: 1500px;
+    
+}
+.Carousel{
+    width: 100%;    
+    height: 250px;
+    padding: 10px;
+
+}
+
+/* Categorias*/
+
+.Categorias{
+
+    width: 100%;
+    height: 250px;
+    padding: 10px;
+    padding-right: 80px;
+}
+
+.nameC{
+    padding-left: 40px;
+    text-align: left;
+    font-size: 20px;
+}
+
+.itemsCategorias{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin: 30px;
+}
+
+.itemC {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center;
+  }
+
+  .Categorias {
+    text-align: center; 
+    margin: 20px 0;
+  }
+  
+  .itemsCategorias {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    gap: 20px; 
+    padding: 15px;
+  }
+  
+  .itemC {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center;
+  }
+  
+  .btnCategoria {
+    width: 300px;
+    background-color: #FFFFFF;
+    height: 140px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    margin-bottom: 10px; 
+  }
+  
+  .btnCategoria1 {
+    background-image: url("../assets/img/categoria1.png");
+  }
+  
+  .btnCategoria2 {
+    background-image: url("../assets/img/categoria2.webp");
+  }
+  
+  .btnCategoria3 {
+    background-image: url("../assets/img/categoria3.webp");
+  }
+  
+  .btnCategoria4 {
+    background-image: url("../assets/img/categotia4.png");
+  }
+  
+  /* Productos Card*/
+
+.Productos{
+    padding: 10px;
+
+}
+
+.nameP{
+    padding-left: 40px;
+    text-align: left;
+    font-size: 20px;
+}
+
+.ProCard{
+    width: 300px;
+    padding-left: 100px;
+}
+
+.btnGru{
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center;
+}
