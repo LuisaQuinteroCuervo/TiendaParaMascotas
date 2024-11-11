@@ -1,5 +1,4 @@
-.footeer{
- 
+.footer{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -9,16 +8,24 @@
 
 }
 
-.LogoF{
+.logo-section{
+    margin-left: 20px;
+    background-image: url("../assets/img/logo2.png");
+    width: 430px;
+    height: 200px;
+    background-repeat: no-repeat;
+
+}
+    
+
+
+.info-section{
     width: 500px;
     height: 200px;
 
 }
 
-.LogoFoo{
-    background-image: url("../assets/img/logo2.png");
-    width: 330px;
+.contact-section{
+    width: 500px;
     height: 200px;
-
-    
 }

@@ -1,0 +1,51 @@
+.containerM {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    margin: 5%;
+    text-align: center;
+}
+
+.rowMenu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    padding: 8px 20px;
+    text-align: center;
+}
+
+/* Estilos para hacer que los contenedores sean más cuadrados y centrados */
+.order-first, .order-medio {
+    margin: 1%;
+    border: none;
+    height: 40vh; /* Ajusta la altura para que sea más cuadrada */
+    width: 30vh; /* Ajusta el ancho para igualar la altura */
+    background-color: #D9D9D9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.botonH, .botonH1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10%; /* Ajusta el margen para centrar mejor */
+    background-color: #004AAD;
+    border: none;
+    font-size: 24px;
+    border-radius: 5px;
+    height: 10vh;
+    width: 30vh;
+}
+
+
+.botonH {
+    font-size: 28px; 
+}
+
+.botonH1 {
+    font-size: 28px; 
+}

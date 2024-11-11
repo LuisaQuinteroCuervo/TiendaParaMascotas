@@ -15,8 +15,11 @@ import VistaProduct from "./Pages/VistaProduct";
 import PagosProducts from "./Pages/PagosProducts";
 
 ///Paginas Admin  
-
-
+import AdminHome from "./Pages/AdminHome";
+import AdminProductos from "./Pages/AdminProductos";      
+import AdminCrearProduct from "./Pages/AdminCrearProduct";
+import AdminVistaProductos from "./Pages/AdminVistaProductos";
+import AdminGestionPedidos from "./Pages/AdminGestionPedidos";
 
 function App() {
   return (
@@ -24,11 +27,17 @@ function App() {
       <BrowserRouter>
       <NavBar />
         <Routes>
-          <Route path="/" element={<PagosProducts />} />
+          <Route path="/" element={<AdminGestionPedidos  />} />
           <Route path="/Login" element={<Login/>} />
           <Route path="/Home" element={<Home/>} />
           <Route path="/VistaProduct" element={<VistaProduct/>} />
           <Route path="/PagosProducts" element={<PagosProducts/>} />
+          <Route path="/AdminHome" element={<AdminHome/>} />
+          <Route path="/AdminProductos" element={<AdminProductos/>} />
+          <Route path="/AdminCrearProduct" element={<AdminCrearProduct/>} />
+          <Route path="/AdminVistaProductos" element={<AdminVistaProductos/>} />
+          <Route path="/AdminGestionPedidos" element={<AdminGestionPedidos/>} />
+
         </Routes>
       <Footer />
       </BrowserRouter>

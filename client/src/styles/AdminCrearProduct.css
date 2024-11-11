@@ -1,0 +1,40 @@
+.containerCrear{
+    display: flex;
+    justify-content: center;   
+    align-items: center;       
+    height: 100vh;             
+}
+
+.containerForm {
+    width: 100%;
+    max-width: 600px;          
+    padding: 20px;             
+    background-color: #D9D9D9;    
+    border: 1px solid #002D6A;    
+    border-radius: 8px;        
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .form-outline {
+    display: flex;
+    align-items: center;       
+    gap: 10px;                 
+  }
+  
+  .form-label {
+    min-width: 80px;           
+  }
+
+  .col-sm-offset-2{
+    display: block;
+    margin: auto;
+  }
+  .btn-default{
+    background-color: #004AAD;
+    color: #FFFFFF;
+
+  }
+
+  .tituloAgregar{
+    color: #004AAD;
+  }
