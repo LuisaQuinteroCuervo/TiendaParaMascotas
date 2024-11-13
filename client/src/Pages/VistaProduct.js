@@ -1,19 +1,49 @@
 import "../styles/VistaProduct.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../api/api";
 
 const VistaProduct = () => {
-  const [quantity, setQuantity] = useState(10);
+  const navigate = useNavigate();
+  const [nombre, setNombre] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [precio, setPrecio] = useState(0);
+  const [imagenUrl, setImagenUrl] = useState("");
+  const [stock, setStock] = useState(0);
+  const { id } = useParams(); 
+  console.log(id);
+  useEffect(() => {
+    
+    handleCallProducto();
+  }, [id]); 
+
+  const handleCallProducto = async () => {
+    try {
+      const response = await api.get(`http://localhost:3001/producto/${id}`);
+      setNombre(response.data.nombre);
+      setDescripcion(response.data.descripcion);
+      setCategoria(response.data.categoria);
+      setPrecio(response.data.precio);
+      setImagenUrl(response.data.imagenUrl);
+      setStock(response.data.stock);
+    } catch (error) {
+      console.error("Error al obtener el producto:", error);
+    }
+  };
+
+  const [quantity, setQuantity] = useState(1);
 
   const handleMinus = () => {
     if (quantity > 1) setQuantity(quantity - 1);
   };
 
   const handlePlus = () => {
-    if (quantity < 100) setQuantity(quantity + 1);
+    if (quantity < stock) setQuantity(quantity + 1); // Limitar cantidad al stock disponible
   };
 
   const handleChange = (e) => {
-    const value = Math.max(1, Math.min(100, Number(e.target.value)));
+    const value = Math.max(1, Math.min(stock, Number(e.target.value))); // Limitar cantidad al stock disponible
     setQuantity(value);
   };
 
@@ -22,50 +52,65 @@ const VistaProduct = () => {
       <form className="container2">
         <div className="row rowA">
           <div className="col subirF">
-            <input
-              type="file"
+            <img
+              src={imagenUrl}
+              alt={nombre}
               className="FotoS"
-              accept="image/*"
-              ///onChange={handleImageS}
-            ></input>
+              style={{ maxWidth: "100%" }}
+              
+            />
           </div>
 
           <div className="row rowA">
             <div className="col">
-              <input
+              <p
                 className="datos2"
                 type="text"
                 name="nombre_producto"
-                //value={}
-                //onChange={}
-                readOnly
-              ></input>
-              <br></br>
+                value={nombre}
+              >
+                {nombre}
+              </p>
+              <br />
 
-              <p>Precio:</p>
-              <input
+              <p className="datos2" type="number" name="precio" value={precio}>
+               $ {precio}
+              </p>
+              <br />
+
+              <p
+                className="datos2"
+                type="text"
+                name="descripcion"
+                value={descripcion}
+                readOnly
+              >
+                {descripcion}
+              </p>
+              <br />
+
+              <p
+                className="datos2"
+                type="text"
+                name="categoria"
+                value={categoria}
+                readOnly
+              >
+                Catgoria: {categoria}
+              </p>
+              <br />
+
+              <p
                 className="datos2"
                 type="number"
-                name="precio"
-                //value={}
-                //onChange={}
+                name="stock"
+                value={stock}
                 readOnly
-              ></input>
-              <br></br>
-
-              <p>descripcion:</p>
-              <input
-                className="datos2"
-                type="email"
-                name="email"
-                //value={}
-                //onChange={}
-                readOnly
-              ></input>
-              <br></br>
+              >
+                Stock: {stock}
+              </p>
             </div>
           </div>
-
 
           <div className="col-lg-2">
             <p className="cantidad">Cantidad</p>
@@ -76,31 +121,30 @@ const VistaProduct = () => {
                   className="quantity-left-minus btn btn-danger btn-number"
                   onClick={handleMinus}
                 >
-                  <span className="glyphicon glyphicon-minus" style={{ color: '#004AAD', fontSize: '20px' }} >-</span>
+                  -
                 </button>
               </span>
               <input
                 type="number"
                 id="quantity"
                 name="quantity"
-                className="form-control input-number  " style={{ backgroundColor: '#D9D9D9', borderColor: '#FFFFFF' }}
+                className="form-control input-number"
                 value={quantity}
                 min="1"
-                max="100"
+                max={stock}
                 onChange={handleChange}
               />
-              <span className="input-group-btn" >
+              <span className="input-group-btn">
                 <button
                   type="button"
                   className="quantity-right-plus btn btn-success btn-number"
                   onClick={handlePlus}
                 >
-                  <span className="glyphicon glyphicon-plus" style={{ color: '#004AAD', fontSize: '20px' }}>+</span>
+                  +
                 </button>
-                
               </span>
               <div className="btnCarr">
-              <button className="btnAddd">Agregar al carrito</button>
+                <button className="btnAddd">Agregar al carrito</button>
               </div>
             </div>
           </div>
@@ -109,4 +153,5 @@ const VistaProduct = () => {
     </div>
   );
 };
+
 export default VistaProduct;

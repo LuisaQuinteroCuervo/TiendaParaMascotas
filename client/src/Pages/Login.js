@@ -1,125 +1,107 @@
-import React, { useState } from 'react';
-import '../styles/Login&Register.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../api/api";
+import "../styles/Login&Register.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import useAuthRedirect from "../hook/useAuthRendirect";
 
 const Login = () => {
-  const [activeTab, setActiveTab] = useState('login'); // Estado para controlar las pestañas
+  useAuthRedirect();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleTabClick = (tab) => {
-    console.log('Tab seleccionada:', tab); // Verificar la pestaña activa
-    setActiveTab(tab);
+  const handleLogin = async () => {
+    if (!email.trim()) {
+      setErrorMessage("Por favor, ingrese un correo electrónico.");
+      console.log("Error: Correo electrónico vacío");
+      return;
+    }
+    if (!password.trim()) {
+      setErrorMessage("Por favor, ingrese una contraseña.");
+      console.log("Error: Contraseña vacía");
+      return;
+    }
+
+    try {
+      console.log("Enviando datos de login al servidor:", { email, password });
+      const response = await api.post("/validarUsuario", { email, password });
+      console.log("Respuesta del servidor:", response.data);
+
+      const { message, role } = response.data;
+      
+      if (message === "Usuario validado") {
+        localStorage.setItem("token", response.data.token); // Solo si tienes un token en la respuesta
+
+        if (role === "administrador") {
+          navigate("/AdminHome");
+          console.log("Redirigiendo a /AdminHome");
+        } else if (role === "User" || role === "cliente") {
+          navigate("/");
+          console.log("Redirigiendo a /");
+        }
+      } else {
+        setErrorMessage("Credenciales incorrectas");
+        console.log("Credenciales incorrectas");
+      }
+    } catch (error) {
+      setErrorMessage("Error en el servidor, por favor intente más tarde.");
+      console.error("Error de autenticación:", error);
+    }
   };
 
   return (
     <div className="containerLogin">
-      <div className="card">
-        <div className="card-body py-5 px-md-5">
-          {/* Pills navs */}
-          <ul className="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
-            <li className="nav-item" role="presentation">
-              <button
-                className={`nav-link ${activeTab === 'login' ? 'active' : ''}`}
-                onClick={() => handleTabClick('login')}
-                role="tab"
-                aria-controls="pills-login"
-                aria-selected={activeTab === 'login'}
-              >
-                Login
-              </button>
-            </li>
-            <li className="nav-item" role="presentation">
-              <button
-                className={`nav-link ${activeTab === 'register' ? 'active' : ''}`}
-                onClick={() => handleTabClick('register')}
-                role="tab"
-                aria-controls="pills-register"
-                aria-selected={activeTab === 'register'}
-              >
-                Register
-              </button>
-            </li>
-          </ul>
+      <div className="card-body">
+        <h2>¡Bienvenidos de nuevo!</h2>
 
-          {/* Pills content */}
-          <div className="tab-content">
-            {activeTab === 'login' && (
-              <div className="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
-                <form>
-                <br></br>
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
-                  <div className="form-outline mb-4">
-                    <input type="email" id="loginName" className="form-control" />
-                    <label className="form-label" htmlFor="loginName">Email or username</label>
-                  </div>
+        <div className="form-outline mb-4">
+          <label className="form-label" htmlFor="loginName">
+            Email
+          </label>
+          <input
+            type="email"
+            value={email}
+            className="form-control"
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ width: "80%" }}
+          />
+        </div>
 
-                  <div className="form-outline mb-4">
-                    <input type="password" id="loginPassword" className="form-control" />
-                    <label className="form-label" htmlFor="loginPassword">Password</label>
-                  </div>
+        <div className="form-outline mb-4">
+          <label className="form-label" htmlFor="loginPassword">
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            className="form-control"
+            onChange={(e) => setPassword(e.target.value)}
+            style={{ width: "80%" }}
+          />
+        </div>
 
-                  <div className="row mb-4">
-                    <div className="col-md-6 d-flex justify-content-center">
-                      <div className="form-check mb-3 mb-md-0">
-                        <input className="form-check-input" type="checkbox" id="loginCheck" defaultChecked />
-                        <label className="form-check-label" htmlFor="loginCheck">Remember me</label>
-                      </div>
-                    </div>
-                    <div className="col-md-6 d-flex justify-content-center">
-                      <a href="#!">Forgot password?</a>
-                    </div>
-                  </div>
+        <button
+          type="button"
+          className="btn btn-primary btn-block mb-4"
+          onClick={handleLogin}
+        >
+          Sign in
+        </button>
 
-                  <button type="submit" className="btn btn-primary btn-block mb-4">Sign in</button>
-
-                  <div className="text-center">
-                    <p>Not a member? <a href="#!">Register</a></p>
-                  </div>
-                </form>
-              </div>
-            )}
-
-            {activeTab === 'register' && (
-              <div className="tab-pane fade show active" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
-                <form>
-                  <br></br>
-
-                  <div className="form-outline mb-4">
-                    <input type="text" id="registerName" className="form-control" />
-                    <label className="form-label" htmlFor="registerName">Name</label>
-                  </div>
-
-                  <div className="form-outline mb-4">
-                    <input type="text" id="registerUsername" className="form-control" />
-                    <label className="form-label" htmlFor="registerUsername">Username</label>
-                  </div>
-
-                  <div className="form-outline mb-4">
-                    <input type="email" id="registerEmail" className="form-control" />
-                    <label className="form-label" htmlFor="registerEmail">Email</label>
-                  </div>
-
-                  <div className="form-outline mb-4">
-                    <input type="password" id="registerPassword" className="form-control" />
-                    <label className="form-label" htmlFor="registerPassword">Password</label>
-                  </div>
-
-                  <div className="form-outline mb-4">
-                    <input type="password" id="registerRepeatPassword" className="form-control" />
-                    <label className="form-label" htmlFor="registerRepeatPassword">Repeat password</label>
-                  </div>
-
-                  <div className="form-check d-flex justify-content-center mb-4">
-                    <input className="form-check-input me-2" type="checkbox" id="registerCheck" defaultChecked />
-                    <label className="form-check-label" htmlFor="registerCheck">
-                      I have read and agree to the terms
-                    </label>
-                  </div>
-
-                  <button type="submit" className="btn btn-primary btn-block mb-3">Sign up</button>
-                </form>
-              </div>
-            )}
-          </div>
+        <div className="text-center">
+          <p>
+            Not a member?{" "}
+            <a
+              onClick={() => navigate("/Register")}
+              style={{ color: "#004AAD", cursor: "pointer" }}
+            >
+              Register
+            </a>
+          </p>
         </div>
       </div>
     </div>

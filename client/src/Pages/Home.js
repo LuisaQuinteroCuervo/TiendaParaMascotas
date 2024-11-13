@@ -1,13 +1,35 @@
 import Carousel from "react-bootstrap/Carousel";
+import api from "../api/api";
 import "../styles/Home.css";
+import ProductCard from "../Components/ProductCard";
+import React, { useEffect } from "react";
+
 
 const Home = () => {
+
+  const [products, setProducts] = React.useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try { 
+        const response = await api.get("http://localhost:3001/productos");
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Error al obtener los productos:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+
+
   return (
     <div className="Home">
       <Carousel className="Carousel">
         <Carousel.Item>
           <img
-            src="/client/src/assets/img/carrusel1.jpg"
+            src="/client/src/assets/img/Carrusel_instagram_1.png"
             alt="First slide"
             style={{ width: "100%", height: "400px", objectFit: "cover" }}
           />
@@ -72,30 +94,22 @@ const Home = () => {
       <div className="Productos">
         <h2 className="nameP">Favoritos Minky</h2>
 
-        <div className="ProCard">
-          <div className="card" style={{ width: "18rem" }}>
-            <img
-              className="card-img-top"
-              src="https://via.placeholder.com/150"
-              alt="Card cap"
-            />
-            <div className="card-body">
-              <h5 className="card-title">Card title</h5>
-              <p className="card-text">
-                Some 
-              </p>
-              <div className="btnGru">
-              <button href="#" className="btn">
-                Añadir al carrito
-              </button>
-              <button href="#" className="btn">
-                Añadir al carrito
-              </button>
+        <div className="ProductosCards">
+          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {products.map((product) => (
+              <div className="col" key={product.id}>
+                <ProductCard product={product} />
               </div>
-            </div>
+            ))}
           </div>
-        </div>
+          </div>
       </div>
+
+
+
+
+
+    
 
       {/* Informaciones*/}
 

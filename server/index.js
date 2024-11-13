@@ -49,7 +49,7 @@ function verificarOCrearAdmin() {
   });
 }
 
-// Crear usurario (solo crea Clientes)
+// Crear usurario (solo crea Clientes) LISTO
 app.post("/addUsuario", (req, res) => {
   const { nombre, email, password } = req.body;
   const sqlInsert = "CALL CrearUsuario(?,?,?);";
@@ -68,47 +68,51 @@ app.post("/addUsuario", (req, res) => {
   });
 });
 
-// loggin
+// login LISTO
 app.post("/validarUsuario", (req, res) => {
   const { email, password } = req.body;
   
-  //traer la contraseña encriptada del usuario 
+  // traer la contraseña encriptada del usuario 
   const sqlSelect = "SELECT password FROM Usuarios WHERE email = ?";
   
   db.query(sqlSelect, [email], (err, result) => {
     if (err) {
       console.log(err);
-      res.status(500).send("Error en la validación del usuario");
+      res.status(500).json({ message: "Error en la validación del usuario" });
     } else if (result.length > 0) {
       const hashedPassword = result[0].password;
 
-      //comparar la contraseña ingresada con el hash almacenado
+      // comparar la contraseña ingresada con el hash almacenado
       bcrypt.compare(password, hashedPassword, (err, isMatch) => {
         if (err) {
           console.log(err);
-          res.status(500).send("Error en la validación de la contraseña");
+          res.status(500).json({ message: "Error en la validación de la contraseña" });
         } else if (isMatch) {
           const sqlCall = "SELECT ValidarUsuario(?, ?) AS rol;";
           
           db.query(sqlCall, [email, hashedPassword], (err, result) => {
             if (err) {
               console.log(err);
-              res.status(500).send("Error al obtener el rol del usuario");
+              res.status(500).json({ message: "Error al obtener el rol del usuario" });
             } else {
               const rol = result[0].rol;
-              if (rol) res.send(`Usuario validado como ${rol}`);
-              else res.send("Usuario no validado");
+              if (rol) {
+                res.json({ message: "Usuario validado", role: rol });
+              } else {
+                res.json({ message: "Usuario no validado" });
+              }
             }
           });
         } else {
-          res.send("Contraseña incorrecta");
+          res.json({ message: "Contraseña incorrecta" });
         }
       });
     } else {
-      res.send("Usuario no encontrado");
+      res.json({ message: "Usuario no encontrado" });
     }
   });
 });
+
 
 
 // ver pedidos administrador
@@ -169,7 +173,7 @@ app.get("/reservasUsuario/:usuarioId", (req, res) => {
   });
 });
 
-// ver productos administradores
+// ver productos administradores LISTO
 app.get("/productos", (req, res) => {
   const sqlSelect = "SELECT * FROM ListaProductos";
   db.query(sqlSelect, (err, result) => {
@@ -178,7 +182,7 @@ app.get("/productos", (req, res) => {
   });
 });
 
-//crear producto
+//crear producto LISTO
 app.post("/addProducto", (req, res) => {
   const { nombre, descripcion, categoria, precio, imagenUrl, stock } = req.body;
   const sqlInsert = "CALL CrearProducto(?, ?, ?, ?, ?, ?);";
@@ -188,17 +192,23 @@ app.post("/addProducto", (req, res) => {
   });
 });
 
-//editar producto
-app.post("/modificarProducto", (req, res) => {
-  const { id, nombre, descripcion, categoria, precio, imagenUrl, stock } = req.body;
+//editar producto LISTO
+app.put("/modificarProducto/:id", (req, res) => { 
+  const  id  = req.params.id;  
+  const { nombre, descripcion, categoria, precio, imagenUrl, stock } = req.body;
+
   const sqlUpdate = "CALL ModificarProducto(?, ?, ?, ?, ?, ?, ?);";
   db.query(sqlUpdate, [id, nombre, descripcion, categoria, precio, imagenUrl, stock], (err, result) => {
-    if (err) console.log(err);
-    else res.send("Producto modificado");
+    if (err) {
+      console.log(err);
+      res.status(500).send("Error al modificar el producto");
+    } else {
+      res.json({ message: "Producto modificado", product: { id, nombre, descripcion, categoria, precio, imagenUrl, stock } });
+    }
   });
 });
 
-// eliminar producto
+// eliminar producto LISTO
 app.delete("/eliminarProducto/:id", (req, res) => {
   const id = req.params.id;
   const sqlDelete = "CALL EliminarProducto(?);";

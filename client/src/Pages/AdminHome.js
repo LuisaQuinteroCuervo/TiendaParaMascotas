@@ -17,7 +17,7 @@ return(
           <button 
           className="botonH"
           type="button"
-          onClick={() => handleNavigate('/ProdctosAdmin')}
+          onClick={() => handleNavigate('/AdminProductos')}
           >Productos</button>
         </div>
         <div className="col coll order-medio">
@@ -25,7 +25,7 @@ return(
           <button 
           className="botonH1"
           type="button"
-          onClick={() => handleNavigate('/Resumen')}
+          onClick={() => handleNavigate('/AdminGestionPedidos')}
           >Pedidos</button>
         </div>
         </div>
