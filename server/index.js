@@ -114,65 +114,6 @@ app.post("/validarUsuario", (req, res) => {
 });
 
 
-
-// ver pedidos administrador
-app.get("/pedidos", (req, res) => {
-  const sqlSelect = "SELECT * FROM VistaPedidos";
-  db.query(sqlSelect, (err, result) => {
-    if (err) console.log(err);
-    else res.send(result);
-  });
-});
-
-// editar estado del pedidos
-app.post("/editarEstadoPedido", (req, res) => {
-  const { pedidoId, nuevoEstado } = req.body;
-  const sqlUpdate = "CALL EditarEstadoPedido(?, ?);";
-  db.query(sqlUpdate, [pedidoId, nuevoEstado], (err, result) => {
-    if (err) console.log(err);
-    else res.send(`Estado del pedido ${pedidoId} actualizado a ${nuevoEstado}`);
-  });
-});
-
-//ver pedidos usuarios
-app.get("/pedidosUsuario/:usuarioId", (req, res) => {
-  const usuarioId = req.params.usuarioId;
-  const sqlSelect = "CALL ObtenerPedidosUsuario(?);";
-  db.query(sqlSelect, [usuarioId], (err, result) => {
-    if (err) console.log(err);
-    else res.send(result[0]);
-  });
-});
-
-// crear reservas
-app.post("/addReserva", (req, res) => {
-  const { usuarioId, servicioId, fecha, hora } = req.body;
-  const sqlInsert = "CALL CrearReserva(?, ?, ?, ?);";
-  db.query(sqlInsert, [usuarioId, servicioId, fecha, hora], (err, result) => {
-    if (err) console.log(err);
-    else res.send("Reserva registrada");
-  });
-});
-
-// ver reservas administradores
-app.get("/reservas", (req, res) => {
-  const sqlSelect = "SELECT * FROM VistaReservas";
-  db.query(sqlSelect, (err, result) => {
-    if (err) console.log(err);
-    else res.send(result);
-  });
-});
-
-// ver reservas usuarios
-app.get("/reservasUsuario/:usuarioId", (req, res) => {
-  const usuarioId = req.params.usuarioId;
-  const sqlSelect = "CALL ObtenerReservasUsuario(?);";
-  db.query(sqlSelect, [usuarioId], (err, result) => {
-    if (err) console.log(err);
-    else res.send(result[0]);
-  });
-});
-
 // ver productos administradores LISTO
 app.get("/productos", (req, res) => {
   const sqlSelect = "SELECT * FROM ListaProductos";
@@ -218,7 +159,7 @@ app.delete("/eliminarProducto/:id", (req, res) => {
   });
 });
 
-// ver solo un producto
+// ver solo un producto LISTO
 app.get("/producto/:id", (req, res) => {
   const id = req.params.id;
   const sqlSelect = "CALL ObtenerProductoPorID(?);";
@@ -227,6 +168,44 @@ app.get("/producto/:id", (req, res) => {
     else res.send(result[0][0]);
   });
 });
+
+
+
+
+// crear reservas
+app.post("/addReserva", (req, res) => {
+  const { usuarioId, servicioId, fecha, hora } = req.body;
+  const sqlInsert = "CALL CrearReserva(?, ?, ?, ?);";
+  db.query(sqlInsert, [usuarioId, servicioId, fecha, hora], (err, result) => {
+    if (err) console.log(err);
+    else res.send("Reserva registrada");
+  });
+});
+
+
+
+
+
+// ver reservas administradores
+app.get("/reservas", (req, res) => {
+  const sqlSelect = "SELECT * FROM VistaReservas";
+  db.query(sqlSelect, (err, result) => {
+    if (err) console.log(err);
+    else res.send(result);
+  });
+});
+
+// ver reservas usuarios
+app.get("/reservasUsuario/:usuarioId", (req, res) => {
+  const usuarioId = req.params.usuarioId;
+  const sqlSelect = "CALL ObtenerReservasUsuario(?);";
+  db.query(sqlSelect, [usuarioId], (err, result) => {
+    if (err) console.log(err);
+    else res.send(result[0]);
+  });
+});
+
+
 
 //ver productos clientes (ya tiene los filtros por categoria y disponibilidad)
 app.get("/productosPorCategoria", (req, res) => {
@@ -253,6 +232,35 @@ app.get("/pedidoProductos/:pedidoId", (req, res) => {
   const pedidoId = req.params.pedidoId;
   const sqlSelect = "CALL ObtenerPedidoProductosPorID(?);";
   db.query(sqlSelect, [pedidoId], (err, result) => {
+    if (err) console.log(err);
+    else res.send(result[0]);
+  });
+});
+
+// ver pedidos administrador
+app.get("/pedidos", (req, res) => {
+  const sqlSelect = "SELECT * FROM VistaPedidos";
+  db.query(sqlSelect, (err, result) => {
+    if (err) console.log(err);
+    else res.send(result);
+  });
+});
+
+// editar estado del pedidos
+app.post("/editarEstadoPedido", (req, res) => {
+  const { pedidoId, nuevoEstado } = req.body;
+  const sqlUpdate = "CALL EditarEstadoPedido(?, ?);";
+  db.query(sqlUpdate, [pedidoId, nuevoEstado], (err, result) => {
+    if (err) console.log(err);
+    else res.send(`Estado del pedido ${pedidoId} actualizado a ${nuevoEstado}`);
+  });
+});
+
+//ver pedidos usuarios
+app.get("/pedidosUsuario/:usuarioId", (req, res) => {
+  const usuarioId = req.params.usuarioId;
+  const sqlSelect = "CALL ObtenerPedidosUsuario(?);";
+  db.query(sqlSelect, [usuarioId], (err, result) => {
     if (err) console.log(err);
     else res.send(result[0]);
   });

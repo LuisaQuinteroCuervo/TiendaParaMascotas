@@ -1,22 +1,21 @@
 import "../styles/VistaProduct.css";
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../api/api";
 
 const VistaProduct = () => {
-  const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [categoria, setCategoria] = useState("");
   const [precio, setPrecio] = useState(0);
   const [imagenUrl, setImagenUrl] = useState("");
   const [stock, setStock] = useState(0);
-  const { id } = useParams(); 
+  const { id } = useParams();
   console.log(id);
+
   useEffect(() => {
-    
     handleCallProducto();
-  }, [id]); 
+  }, [id]);
 
   const handleCallProducto = async () => {
     try {
@@ -48,110 +47,100 @@ const VistaProduct = () => {
   };
 
   return (
-    <div className="VistaProduct">
-      <form className="container2">
-        <div className="row rowA">
-          <div className="col subirF">
-            <img
-              src={imagenUrl}
-              alt={nombre}
-              className="FotoS"
-              style={{ maxWidth: "100%" }}
-              
-            />
-          </div>
-
-          <div className="row rowA">
-            <div className="col">
-              <p
-                className="datos2"
-                type="text"
-                name="nombre_producto"
-                value={nombre}
-              >
-                {nombre}
-              </p>
-              <br />
-
-              <p className="datos2" type="number" name="precio" value={precio}>
-               $ {precio}
-              </p>
-              <br />
-
-              <p
-                className="datos2"
-                type="text"
-                name="descripcion"
-                value={descripcion}
-                readOnly
-              >
-                {descripcion}
-              </p>
-              <br />
-
-              <p
-                className="datos2"
-                type="text"
-                name="categoria"
-                value={categoria}
-                readOnly
-              >
-                Catgoria: {categoria}
-              </p>
-              <br />
-
-              <p
-                className="datos2"
-                type="number"
-                name="stock"
-                value={stock}
-                readOnly
-              >
-                Stock: {stock}
-              </p>
+    <div className="VistaProduct container">
+      <div className="card" style={{ borderColor: "#004AAD" }}>
+        <div className="container-fluid">
+          <div className="wrapper row">
+            <div className="preview col-md-6">
+              <div className="preview-pic tab-content">
+                <div className="tab-pane active" id="pic-1">
+                  <img src={imagenUrl} alt={nombre} style={{ width: "60%", height: "60%" }} />
+                </div>
+                {/* Additional images can be added here if available */}
+              </div>
+              <ul className="preview-thumbnail nav nav-tabs">
+                {/* Additional thumbnails can be added here if available */}
+              </ul>
             </div>
-          </div>
+            <div className="details col-md-6">
+              <h3 className="product-title">{nombre}</h3>
 
-          <div className="col-lg-2">
-            <p className="cantidad">Cantidad</p>
-            <div className="input-group">
-              <span className="input-group-btn">
-                <button
-                  type="button"
-                  className="quantity-left-minus btn btn-danger btn-number"
-                  onClick={handleMinus}
+              <p className="product-description">{descripcion}</p>
+              <h4 className="price">
+                Current price: <span>${precio}</span>
+              </h4>
+              <div className="actions">
+                <h5 className="category">Category: {categoria}</h5>
+                <h5 className="stock">Stock: {stock}</h5>
+              </div>
+
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <div
+                  className="  quantity-selector  "
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "50%",
+                  }}
                 >
-                  -
-                </button>
-              </span>
-              <input
-                type="number"
-                id="quantity"
-                name="quantity"
-                className="form-control input-number"
-                value={quantity}
-                min="1"
-                max={stock}
-                onChange={handleChange}
-              />
-              <span className="input-group-btn">
+                  <button
+                    type="button"
+                    className="btn btn-icon btn-secondary"
+                    style={{ backgroundColor: "#004AAD", color: "white" }}
+                    aria-describedby="inputQuantitySelector"
+                    data-bs-step="down"
+                    onClick={handleMinus}
+                    disabled={quantity === 1}
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    id="inputQuantitySelector"
+                    className="form-control"
+                    aria-live="polite"
+                    data-bs-step="counter"
+                    name="quantity"
+                    title="quantity"
+                    value={quantity}
+                    min={1}
+                    max={stock}
+                    step={1}
+                    data-bs-round={0}
+                    aria-label="Quantity selector"
+                    onChange={handleChange}
+                  />
+
+                  <button
+                    type="button"
+                    className="btn btn-icon btn-secondary"
+                    style={{ backgroundColor: "#004AAD", color: "white" }}
+                    aria-describedby="inputQuantitySelector"
+                    data-bs-step="up"
+                    onClick={handlePlus}
+                    disabled={quantity === stock}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <br />
+              <div
+                className="actions d-flex justify-content-center"
+                style={{ display: "flex", justifyContent: "center" }}
+              >
                 <button
-                  type="button"
-                  className="quantity-right-plus btn btn-success btn-number"
-                  onClick={handlePlus}
+                  className="btn btn-primary"
+                  style={{ backgroundColor: "#004AAD", margin: "auto" }}
                 >
-                  +
+                  Add to cart
                 </button>
-              </span>
-              <div className="btnCarr">
-                <button className="btnAddd">Agregar al carrito</button>
               </div>
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
-
 export default VistaProduct;

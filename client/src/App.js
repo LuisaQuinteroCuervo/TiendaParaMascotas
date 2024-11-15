@@ -14,6 +14,7 @@ import Register from "./Pages/Register";
 import Home from "./Pages/Home";
 import VistaProduct from "./Pages/VistaProduct";
 import PagosProducts from "./Pages/PagosProducts";
+import CrearReservas from "./Pages/CrearReservas";
 
 ///Paginas Admin  
 import AdminHome from "./Pages/AdminHome";
@@ -41,6 +42,7 @@ function App() {
           <Route path="/AdminVistaProductos" element={<AdminVistaProductos/>} />
           <Route path="/AdminGestionPedidos" element={<AdminGestionPedidos/>} />
           <Route path="/AdminEditar/:id" element={<AdminEditar/>} />
+          <Route path="/CrearReservas" element={<CrearReservas/>} />
 
         </Routes>
       <Footer />

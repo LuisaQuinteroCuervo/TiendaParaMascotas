@@ -9,9 +9,9 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const [searchText, setSearchText] = useState("");
-  const handleLogout = () => {
+  const handleLogout = (path) => {
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate(path);
   };
 
 
@@ -43,11 +43,20 @@ const NavBar = () => {
             <button
               className="botonNav"
               type="button"
-              onClick={handleLogout}
+              onClick={() => handleLogout('/login')}
             >
               Logout
             </button>
+
+            <button
+              className="botonNav"
+              type="button"
+              onClick={() => navigate('/CrearReservas')}
+            >
+              Reservas
+            </button>
           </Navbar.Collapse>
+
         ) : (
           <>
             <Navbar.Collapse className="justify-content-end">
