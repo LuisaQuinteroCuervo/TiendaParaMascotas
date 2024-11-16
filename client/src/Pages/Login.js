@@ -29,11 +29,16 @@ const Login = () => {
       const response = await api.post("/validarUsuario", { email, password });
       console.log("Respuesta del servidor:", response.data);
 
-      const { message, role } = response.data;
-      
-      if (message === "Usuario validado") {
-        localStorage.setItem("token", response.data.token); // Solo si tienes un token en la respuesta
+      const { message, role, usuarioId, token } = response.data;
 
+      if (message === "Usuario validado") {
+        // Guardar token y usuarioId en el localStorage
+        localStorage.setItem("token", token); // Si tienes un token en la respuesta
+        localStorage.setItem("usuarioId", usuarioId); // Guardar el usuarioId
+
+        console.log("Usuario ID guardado en localStorage:", usuarioId);
+
+        // Redirigir según el rol
         if (role === "administrador") {
           navigate("/AdminHome");
           console.log("Redirigiendo a /AdminHome");

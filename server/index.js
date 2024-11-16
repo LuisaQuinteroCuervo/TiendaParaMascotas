@@ -172,26 +172,13 @@ app.get("/producto/:id", (req, res) => {
 
 
 
-// crear reservas
+// crear reservas MEDIO LISTO
 app.post("/addReserva", (req, res) => {
   const { usuarioId, servicioId, fecha, hora } = req.body;
   const sqlInsert = "CALL CrearReserva(?, ?, ?, ?);";
   db.query(sqlInsert, [usuarioId, servicioId, fecha, hora], (err, result) => {
     if (err) console.log(err);
     else res.send("Reserva registrada");
-  });
-});
-
-
-
-
-
-// ver reservas administradores
-app.get("/reservas", (req, res) => {
-  const sqlSelect = "SELECT * FROM VistaReservas";
-  db.query(sqlSelect, (err, result) => {
-    if (err) console.log(err);
-    else res.send(result);
   });
 });
 
@@ -204,6 +191,34 @@ app.get("/reservasUsuario/:usuarioId", (req, res) => {
     else res.send(result[0]);
   });
 });
+
+
+app.post("/editarEstadoReserva", (req, res) => {
+  const { reservaId, nuevoEstado } = req.body;
+  const sqlCall = "CALL EditarEstadoReserva(?, ?);";
+
+  db.query(sqlCall, [reservaId, nuevoEstado], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Error al editar el estado de la reserva");
+    } else {
+      res.send(`Estado de la reserva ${reservaId} actualizado a ${nuevoEstado}`);
+    }
+  });
+});
+
+
+
+// ver reservas administradores
+app.get("/reservas", (req, res) => {
+  const sqlSelect = "SELECT * FROM VistaReservas";
+  db.query(sqlSelect, (err, result) => {
+    if (err) console.log(err);
+    else res.send(result);
+  });
+});
+
+
 
 
 
@@ -304,19 +319,6 @@ app.delete("/carrito/eliminarProducto", (req, res) => {
   });
 });
 
-app.post("/editarEstadoReserva", (req, res) => {
-  const { reservaId, nuevoEstado } = req.body;
-  const sqlCall = "CALL EditarEstadoReserva(?, ?);";
-
-  db.query(sqlCall, [reservaId, nuevoEstado], (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Error al editar el estado de la reserva");
-    } else {
-      res.send(`Estado de la reserva ${reservaId} actualizado a ${nuevoEstado}`);
-    }
-  });
-});
 
 db.connect((err) => {
   if (err) throw err;

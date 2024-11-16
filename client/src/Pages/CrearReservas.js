@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const CrearReservas = () => {
   const navigate = useNavigate();
+  
   const [newServicio, setNewServicio] = React.useState({
     usuarioId: "", 
     servicioId: "",
@@ -12,15 +13,18 @@ const CrearReservas = () => {
     hora: ""
   });
 
-  // Cargar el usuarioId automáticamente
+  // Cargar el usuarioId automáticamente desde el localStorage o desde donde sea necesario
   useEffect(() => {
     const usuarioId = localStorage.getItem("usuarioId");
-    console.log("Usuario ID obtenido:", usuarioId); 
     if (usuarioId) {
       setNewServicio(prevState => ({ ...prevState, usuarioId }));
     }
   }, []);
-  
+
+  // Función para redirigir a la vista de reservas
+  const handleVerReservas = () => {
+    navigate(`/VerReservas/${newServicio.usuarioId}`); // Usar el usuarioId del estado
+  }
 
   const handleCrearReserva = async (e) => {
     e.preventDefault();
@@ -34,7 +38,7 @@ const CrearReservas = () => {
     try {
       const response = await api.post("http://localhost:3001/addReserva", newServicio);
       setNewServicio({
-        usuarioId, // No limpiamos usuarioId ya que es el mismo
+        usuarioId: "",
         servicioId: "",
         fecha: "",
         hora: ""
@@ -66,8 +70,8 @@ const CrearReservas = () => {
             id="usuarioId"
             name="usuarioId"
             value={newServicio.usuarioId}
+            onChange={(e) => setNewServicio({ ...newServicio, usuarioId: e.target.value })} // Aquí se actualiza el estado
             className="form-control"
-            disabled
           />
         </div>
 
@@ -118,7 +122,15 @@ const CrearReservas = () => {
 
         <div className="form-group">
           <button type="submit" className="btn btn-default">Guardar</button>
+          <button
+            type="button" // Cambié el tipo de submit a button para evitar enviar el formulario
+            className="btn btn-default"
+            onClick={handleVerReservas}
+          >
+            Ver reservas
+          </button>
         </div>
+        
       </form>
     </div>
   );
