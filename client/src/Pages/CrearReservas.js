@@ -13,7 +13,6 @@ const CrearReservas = () => {
     hora: ""
   });
 
-  // Cargar el usuarioId automáticamente desde el localStorage o desde donde sea necesario
   useEffect(() => {
     const usuarioId = localStorage.getItem("usuarioId");
     if (usuarioId) {
@@ -21,7 +20,6 @@ const CrearReservas = () => {
     }
   }, []);
 
-  // Función para redirigir a la vista de reservas
   const handleVerReservas = () => {
     navigate(`/VerReservas/${newServicio.usuarioId}`); // Usar el usuarioId del estado
   }
@@ -62,7 +60,6 @@ const CrearReservas = () => {
         <h2 className="tituloAgregar">Agendar un Servicio</h2>
         <br />
 
-        {/* Ocultamos el campo usuarioId o lo mostramos como deshabilitado */}
         <div className="form-outline mb-4">
           <label className="form-label" htmlFor="usuarioId">ID Usuario</label>
           <input
@@ -123,7 +120,7 @@ const CrearReservas = () => {
         <div className="form-group">
           <button type="submit" className="btn btn-default">Guardar</button>
           <button
-            type="button" // Cambié el tipo de submit a button para evitar enviar el formulario
+            type="button" 
             className="btn btn-default"
             onClick={handleVerReservas}
           >

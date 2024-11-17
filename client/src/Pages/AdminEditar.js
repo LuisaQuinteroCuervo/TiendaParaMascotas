@@ -36,7 +36,7 @@ const AdminEditar = () => {
       );
       console.log(response.data);
       alert("Producto actualizado correctamente");
-      navigate("/AdminProductos"); // Redirigir a la página de productos
+      navigate("/AdminProductos"); 
     } catch (error) {
       if (error.response) {
         console.error("Detalles del error: ", error.response.data);

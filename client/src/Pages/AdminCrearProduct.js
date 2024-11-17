@@ -157,7 +157,7 @@ const AdminCrearProduct = () => {
             }
             className="form-control"
             required
-      min="0" // Stock mínimo de 0
+      min="0" 
       title="Ingrese un valor de stock no negativo."
           />
         </div>

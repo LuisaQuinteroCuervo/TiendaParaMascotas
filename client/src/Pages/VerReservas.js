@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // Importa useParams
+import { useParams } from "react-router-dom"; 
 import axios from "axios";
 
 const VerReservas = () => {
-  const { id } = useParams(); // Obtén el id de la URL
+  const { id } = useParams(); 
   const [reservas, setReservas] = useState([]);
 
   useEffect(() => {
-    // Hacer la solicitud al backend para obtener las reservas del usuario
+   
     axios.get(`/reservasUsuario/${id}`)
       .then((response) => {
-        setReservas(response.data); // Almacenar las reservas en el estado
+        setReservas(response.data); 
       })
       .catch((error) => {
         console.log("Error al obtener las reservas:", error);
       });
-  }, [id]); // Se ejecutará cada vez que cambie el id
+  }, [id]); 
 
   return (
     <div className="reservas-container">

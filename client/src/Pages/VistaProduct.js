@@ -56,10 +56,10 @@ const VistaProduct = () => {
                 <div className="tab-pane active" id="pic-1">
                   <img src={imagenUrl} alt={nombre} style={{ width: "60%", height: "60%" }} />
                 </div>
-                {/* Additional images can be added here if available */}
+                
               </div>
               <ul className="preview-thumbnail nav nav-tabs">
-                {/* Additional thumbnails can be added here if available */}
+              
               </ul>
             </div>
             <div className="details col-md-6">

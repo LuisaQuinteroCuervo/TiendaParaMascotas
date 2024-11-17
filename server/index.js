@@ -70,31 +70,56 @@ app.post("/addUsuario", (req, res) => {
 
 // login LISTO
 app.post("/validarUsuario", (req, res) => {
-  const { email, password } = req.body;
-  
-  // traer la contraseña encriptada del usuario 
-  const sqlSelect = "SELECT password FROM Usuarios WHERE email = ?";
-  
-  db.query(sqlCall, [email, hashedPassword], (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).json({ message: "Error al obtener el rol del usuario" });
-    } else {
-      const rol = result[0].rol;
-      const usuarioId = result[0].id; // Asegúrate de que 'id' está disponible aquí.
-      
-      if (rol) {
-        res.json({ 
-          message: "Usuario validado", 
-          role: rol, 
-          usuarioId // Incluye el usuarioId en la respuesta
+  try {
+    const { email, password } = req.body;
+
+    const sqlSelect = "SELECT password FROM Usuarios WHERE email = ?";
+    db.query(sqlSelect, [email], (err, result) => {
+      if (err) {
+        console.error("Error ejecutando sqlSelect:", err);
+        return res.status(500).json({ message: "Error en la base de datos" });
+      }
+
+      if (result.length > 0) {
+        const hashedPassword = result[0].password;
+
+        bcrypt.compare(password, hashedPassword, (err, isMatch) => {
+          if (err) {
+            console.error("Error en bcrypt.compare:", err);
+            return res.status(500).json({ message: "Error en bcrypt" });
+          }
+
+          if (isMatch) {
+            const sqlCall = "SELECT ValidarUsuario(?, ?) AS rol;";
+            db.query(sqlCall, [email, hashedPassword], (err, result) => {
+              if (err) {
+                console.error("Error ejecutando sqlCall:", err);
+                return res
+                  .status(500)
+                  .json({ message: "Error al obtener el rol del usuario" });
+              }
+
+              const rol = result[0]?.rol || null;
+              if (rol) {
+                res.json({ message: "Usuario validado", role: rol });
+              } else {
+                res.status(400).json({ message: "Usuario no validado" });
+              }
+            });
+          } else {
+            res.status(401).json({ message: "Contraseña incorrecta" });
+          }
         });
       } else {
-        res.json({ message: "Usuario no validado" });
+        res.status(404).json({ message: "Usuario no encontrado" });
       }
-    }
-  });
-});  
+    });
+  } catch (error) {
+    console.error("Error general en /validarUsuario:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
+  }
+});
+
 
 
 // ver productos administradores LISTO
@@ -155,7 +180,7 @@ app.get("/producto/:id", (req, res) => {
 
 
 
-// crear reservas MEDIO LISTO
+// crear reservas LISTO
 app.post("/addReserva", (req, res) => {
   const { usuarioId, servicioId, fecha, hora } = req.body;
   const sqlInsert = "CALL CrearReserva(?, ?, ?, ?);";
@@ -189,7 +214,6 @@ app.post("/editarEstadoReserva", (req, res) => {
     }
   });
 });
-
 
 
 // ver reservas administradores
