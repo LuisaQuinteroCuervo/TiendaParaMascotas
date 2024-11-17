@@ -75,43 +75,26 @@ app.post("/validarUsuario", (req, res) => {
   // traer la contraseña encriptada del usuario 
   const sqlSelect = "SELECT password FROM Usuarios WHERE email = ?";
   
-  db.query(sqlSelect, [email], (err, result) => {
+  db.query(sqlCall, [email, hashedPassword], (err, result) => {
     if (err) {
       console.log(err);
-      res.status(500).json({ message: "Error en la validación del usuario" });
-    } else if (result.length > 0) {
-      const hashedPassword = result[0].password;
-
-      // comparar la contraseña ingresada con el hash almacenado
-      bcrypt.compare(password, hashedPassword, (err, isMatch) => {
-        if (err) {
-          console.log(err);
-          res.status(500).json({ message: "Error en la validación de la contraseña" });
-        } else if (isMatch) {
-          const sqlCall = "SELECT ValidarUsuario(?, ?) AS rol;";
-          
-          db.query(sqlCall, [email, hashedPassword], (err, result) => {
-            if (err) {
-              console.log(err);
-              res.status(500).json({ message: "Error al obtener el rol del usuario" });
-            } else {
-              const rol = result[0].rol;
-              if (rol) {
-                res.json({ message: "Usuario validado", role: rol });
-              } else {
-                res.json({ message: "Usuario no validado" });
-              }
-            }
-          });
-        } else {
-          res.json({ message: "Contraseña incorrecta" });
-        }
-      });
+      res.status(500).json({ message: "Error al obtener el rol del usuario" });
     } else {
-      res.json({ message: "Usuario no encontrado" });
+      const rol = result[0].rol;
+      const usuarioId = result[0].id; // Asegúrate de que 'id' está disponible aquí.
+      
+      if (rol) {
+        res.json({ 
+          message: "Usuario validado", 
+          role: rol, 
+          usuarioId // Incluye el usuarioId en la respuesta
+        });
+      } else {
+        res.json({ message: "Usuario no validado" });
+      }
     }
   });
-});
+});  
 
 
 // ver productos administradores LISTO

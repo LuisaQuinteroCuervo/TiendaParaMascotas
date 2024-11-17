@@ -29,27 +29,29 @@ const Login = () => {
       const response = await api.post("/validarUsuario", { email, password });
       console.log("Respuesta del servidor:", response.data);
 
-      const { message, role, usuarioId, token } = response.data;
+      const { message, role, token } = response.data;
 
-      if (message === "Usuario validado") {
-        // Guardar token y usuarioId en el localStorage
-        localStorage.setItem("token", token); // Si tienes un token en la respuesta
-        localStorage.setItem("usuarioId", usuarioId); // Guardar el usuarioId
+// Asegúrate de desestructurar correctamente `role`
+const { id: usuarioId, rol } = role;
 
-        console.log("Usuario ID guardado en localStorage:", usuarioId);
+if (message === "Usuario validado") {
+  localStorage.setItem("token", token);
+  localStorage.setItem("usuarioId", usuarioId);
 
-        // Redirigir según el rol
-        if (role === "administrador") {
-          navigate("/AdminHome");
-          console.log("Redirigiendo a /AdminHome");
-        } else if (role === "User" || role === "cliente") {
-          navigate("/");
-          console.log("Redirigiendo a /");
-        }
-      } else {
-        setErrorMessage("Credenciales incorrectas");
-        console.log("Credenciales incorrectas");
-      }
+  console.log("Usuario ID guardado en localStorage:", usuarioId);
+
+  if (rol === "administrador") {
+    navigate("/AdminHome");
+    console.log("Redirigiendo a /AdminHome");
+  } else if (rol === "User" || rol === "cliente") {
+    navigate("/");
+    console.log("Redirigiendo a /");
+  }
+} else {
+  setErrorMessage("Credenciales incorrectas");
+  console.log("Credenciales incorrectas");
+}
+
     } catch (error) {
       setErrorMessage("Error en el servidor, por favor intente más tarde.");
       console.error("Error de autenticación:", error);
