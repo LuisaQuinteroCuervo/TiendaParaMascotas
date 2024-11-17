@@ -1,6 +1,6 @@
 import "./App.css";
 import "./index.css";
-import React from "react";
+import React, { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -26,6 +26,20 @@ import AdminGestionPedidos from "./Pages/AdminGestionPedidos";
 import AdminEditar from "./Pages/AdminEditar";
 
 function App() {
+  useEffect(() => {
+    // Cargar script JS de Bootstrap dinámicamente
+    const script = document.createElement("script");
+    script.src =
+      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    // Cleanup para eliminar el script cuando el componente se desmonta
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <div className="App">
       <BrowserRouter>

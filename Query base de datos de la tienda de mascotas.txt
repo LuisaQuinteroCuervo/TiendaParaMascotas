@@ -86,7 +86,7 @@ CREATE TABLE Notificaciones (
     FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE CASCADE
 );
 
--- crear usuarios, solo crea clientes, los administradores seran 2 por defecto
+-- crear usuarios, solo crea clientes, sera 1 solo administrador por defecto
 DELIMITER //
 CREATE PROCEDURE CrearUsuario(
     IN p_nombre VARCHAR(100),
@@ -99,23 +99,24 @@ BEGIN
 END //
 DELIMITER ;
 
--- funcion que valida el loggin si existe y retorna el rol o null si no existe
+-- funcion que valida el loggin si existe y retorna el rol y el id del usuario en un json
 DELIMITER //
 CREATE FUNCTION ValidarUsuario(
     p_email VARCHAR(100),
     p_password VARCHAR(255)
-) RETURNS ENUM('administrador', 'cliente')
+) RETURNS JSON
 DETERMINISTIC
 BEGIN
-    DECLARE rol ENUM('administrador', 'cliente');
+    DECLARE result JSON;
     
-    SELECT u.rol INTO rol
+    SELECT JSON_OBJECT('id', u.id, 'rol', u.rol) INTO result
     FROM Usuarios u
     WHERE u.email = p_email AND u.password = p_password;
     
-    RETURN rol;
+    RETURN result;
 END //
 DELIMITER ;
+
 
 CREATE VIEW VistaPedidos AS
 SELECT 

@@ -32,7 +32,7 @@ function verificarOCrearAdmin() {
         } else {
           const sqlInsert = "CALL CrearAdmin(?, ?, ?)";
           const nombreAdmin = "admin";
-          const emailAdmin = "adminUser";
+          const emailAdmin = "adminUser@gmail.com";
           
           db.query(sqlInsert, [nombreAdmin, emailAdmin, hashedPassword], (err, result) => {
             if (err) {
