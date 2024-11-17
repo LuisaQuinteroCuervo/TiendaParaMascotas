@@ -21,8 +21,12 @@ const CrearReservas = () => {
   }, []);
 
   const handleVerReservas = () => {
-    navigate(`/VerReservas/${newServicio.usuarioId}`); // Usar el usuarioId del estado
-  }
+    if (newServicio.usuarioId) {
+      navigate(`/VerReservas/${newServicio.usuarioId}`); // Usar el usuarioId del estado
+    } else {
+      alert("Usuario no identificado. Por favor, inicie sesión.");
+    }
+  };
 
   const handleCrearReserva = async (e) => {
     e.preventDefault();
@@ -36,13 +40,13 @@ const CrearReservas = () => {
     try {
       const response = await api.post("http://localhost:3001/addReserva", newServicio);
       setNewServicio({
-        usuarioId: "",
+        usuarioId: newServicio.usuarioId, // Mantén el usuarioId
         servicioId: "",
         fecha: "",
         hora: ""
       });
       alert("Reserva creada con éxito.");
-      navigate("/");
+      navigate("/"); // Redirige después de crear la reserva
     } catch (error) {
       if (error.response) {
         console.log("Detalles del error: ", error.response.data);
@@ -67,8 +71,9 @@ const CrearReservas = () => {
             id="usuarioId"
             name="usuarioId"
             value={newServicio.usuarioId}
-            onChange={(e) => setNewServicio({ ...newServicio, usuarioId: e.target.value })} // Aquí se actualiza el estado
+            onChange={(e) => setNewServicio({ ...newServicio, usuarioId: e.target.value })}
             className="form-control"
+            disabled // Deshabilitado para que no sea editable
           />
         </div>
 

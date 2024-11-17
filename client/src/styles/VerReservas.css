@@ -1,0 +1,26 @@
+.reserva-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+
+}
+
+.reserva-info{
+
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px #004AAD;
+    height: 200px;
+    width: 600px;
+}
+
+.btn-edit{
+    width: 150px; 
+    height: 30px;
+    background-color: #004AAD;
+    border: none;
+    color: #FFFFFF;
+    font-size: 15px;
+    border-radius: 15px;
+  }

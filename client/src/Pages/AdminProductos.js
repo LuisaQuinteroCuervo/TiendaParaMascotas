@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import api from "../api/api";
+import "../styles/AdminProductos.css";
 
 const AdminProductos = () => {
   const navigate = useNavigate();
@@ -48,9 +49,16 @@ const AdminProductos = () => {
         <div className="col-6 text-start">
           <h1 className="titH" >Todos Los Productos</h1>
         </div>
-        <div className=" text-end">
+        <div className=" text-end ms-3">
           <button
-            className="btnV"
+            className="btnAgregarP me-3"
+            type="button"
+            onClick={() => handleNavigate("/AdminCrearProduct")}
+          >
+            Agregar Producto
+          </button>
+          <button
+            className="btnAgregarP"
             type="button"
             onClick={() => handleNavigate("/AdminCrearProduct")}
           >
@@ -60,7 +68,7 @@ const AdminProductos = () => {
       </div>
       <div className="row">
         <div className="col-12">
-          <table className="table table-bordered">
+          <table className="table table-bordered" style={{ borderColor: "#004AAD" }}>
             <thead>
               <tr>
                 <th scope="col">id</th>

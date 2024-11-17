@@ -178,8 +178,6 @@ app.get("/producto/:id", (req, res) => {
 });
 
 
-
-
 // crear reservas LISTO
 app.post("/addReserva", (req, res) => {
   const { usuarioId, servicioId, fecha, hora } = req.body;
@@ -190,7 +188,7 @@ app.post("/addReserva", (req, res) => {
   });
 });
 
-// ver reservas usuarios
+// ver reservas usuarios LISTO
 app.get("/reservasUsuario/:usuarioId", (req, res) => {
   const usuarioId = req.params.usuarioId;
   const sqlSelect = "CALL ObtenerReservasUsuario(?);";

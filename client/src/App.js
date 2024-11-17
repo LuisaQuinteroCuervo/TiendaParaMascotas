@@ -21,7 +21,7 @@ import VerReservas from "./Pages/VerReservas";
 import AdminHome from "./Pages/AdminHome";
 import AdminProductos from "./Pages/AdminProductos";
 import AdminCrearProduct from "./Pages/AdminCrearProduct";
-import AdminVistaProductos from "./Pages/AdminVistaProductos";
+
 import AdminGestionPedidos from "./Pages/AdminGestionPedidos";
 import AdminEditar from "./Pages/AdminEditar";
 
@@ -40,10 +40,7 @@ function App() {
           <Route path="/AdminHome" element={<AdminHome />} />
           <Route path="/AdminProductos" element={<AdminProductos />} />
           <Route path="/AdminCrearProduct" element={<AdminCrearProduct />} />
-          <Route
-            path="/AdminVistaProductos"
-            element={<AdminVistaProductos />}
-          />
+
           <Route
             path="/AdminGestionPedidos"
             element={<AdminGestionPedidos />}
