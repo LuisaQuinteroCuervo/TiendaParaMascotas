@@ -209,7 +209,7 @@ app.get("/reservas", (req, res) => {
 
 
 
-// ver editar reseva usuario 
+// ver editar reseva usuario  LISTO
 app.post("/editarEstadoReserva", (req, res) => {
   const { reservaId, nuevoEstado } = req.body;
   const sqlCall = "CALL EditarEstadoReserva(?, ?);";

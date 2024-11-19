@@ -18,6 +18,7 @@ return(
           className="botonH"
           type="button"
           onClick={() => handleNavigate('/AdminProductos')}
+          style={{color: "#FFFFFF"}}
           >Productos</button>
         </div>
         <div className="col coll order-medio">
@@ -26,6 +27,7 @@ return(
           className="botonH1"
           type="button"
           onClick={() => handleNavigate('/AdminGestionPedidos')}
+          style={{color: "#FFFFFF"}}
           >Pedidos</button>
         </div>
         </div>

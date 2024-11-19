@@ -2,6 +2,7 @@ import "../styles/AdminCrearProduct.css";
 import api from "../api/api";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const AdminEditar = () => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const AdminEditar = () => {
   const [descripcion, setDescripcion] = useState("");
   const [categoria, setCategoria] = useState("");
   const [precio, setPrecio] = useState(0);
-  const [imagen_url, setImagen_url] = useState("");
+  const [imagenUrl, setImagenUrl] = useState("");
   const [stock, setStock] = useState(0);
   const { id } = useParams();
 
@@ -24,26 +25,45 @@ const AdminEditar = () => {
     e.preventDefault();
     try {
       const response = await api.put(
-        `http://localhost:3001/modificarProducto/${id}`,  
+        `http://localhost:3001/modificarProducto/${id}`,
         {
           nombre,
           descripcion,
           categoria,
           precio,
-          imagen_url,
+          imagenUrl,
           stock,
         }
       );
       console.log(response.data);
-      alert("Producto actualizado correctamente");
-      navigate("/AdminProductos"); 
+
+      Swal.fire({
+        icon: "success",
+        title: "Producto actualizado",
+        text: "El producto se ha actualizado correctamente.",
+        confirmButtonText: "Aceptar",
+      }).then(() => {
+        navigate("/AdminProductos");
+      });
     } catch (error) {
       if (error.response) {
         console.error("Detalles del error: ", error.response.data);
-        alert(`eror: ${error.response.data.message || 'Problema con actualizar el producto'}`);	  
+
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.response.data.message || "Problema al actualizar el producto.",
+          confirmButtonText: "Aceptar",
+        });
       } else {
-        console.error('Error al actualizar el producto: ', error.message);
-        alert("Problema con actualizar el producto");
+        console.error("Error al actualizar el producto: ", error.message);
+
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Problema al actualizar el producto.",
+          confirmButtonText: "Aceptar",
+        });
       }
     }
   };
@@ -55,10 +75,17 @@ const AdminEditar = () => {
       setDescripcion(response.data.descripcion || "");
       setCategoria(response.data.categoria || "");
       setPrecio(response.data.precio || 0);
-      setImagen_url(response.data.imagen_url || "");
+      setImagenUrl(response.data.imagen_url || "");
       setStock(response.data.stock || 0);
     } catch (error) {
       console.error("Error al obtener el producto:", error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo cargar la información del producto.",
+        confirmButtonText: "Aceptar",
+      });
     }
   };
 
@@ -76,7 +103,6 @@ const AdminEditar = () => {
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
             className="form-control"
-            
           />
         </div>
 
@@ -88,7 +114,6 @@ const AdminEditar = () => {
             rows="3"
             name="descripcion"
             required
-            title="Por favor, ingrese un nombre para el producto."
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
           ></textarea>
@@ -97,7 +122,7 @@ const AdminEditar = () => {
 
         <div data-mdb-input-init className="form-outline mb-4">
           <label className="form-label" htmlFor="form7Example4">
-            Category
+            Categoría
           </label>
           <select
             name="categoria"
@@ -129,15 +154,16 @@ const AdminEditar = () => {
 
         <div data-mdb-input-init className="form-outline mb-4">
           <label className="form-label" htmlFor="form7Example5">
-            Image
+            Imagen
           </label>
           <input
-            type="text"
-            name="imagen_url"
-            value={imagen_url}
-            onChange={(e) => setImagen_url(e.target.value)}
-            className="form-control"
-          />
+  type="text"
+  name="imagenUrl"
+  value={imagenUrl}
+  onChange={(e) => setImagenUrl(e.target.value)}
+  className="form-control"
+/>
+
         </div>
 
         <div data-mdb-input-init className="form-outline mb-4">
@@ -151,17 +177,12 @@ const AdminEditar = () => {
             onChange={(e) => setStock(e.target.value)}
             className="form-control"
             required
-            min="0" // Stock mínimo de 0
-            title="Ingrese un valor de stock no negativo."
+            min="0"
           />
         </div>
         <div className="form-group">
           <div className="col-sm-offset-2 col-sm-10">
-            <button
-              type="submit"
-              
-              className="btn btn-default"
-            >
+            <button type="submit" className="btn btn-default">
               Actualizar
             </button>
           </div>

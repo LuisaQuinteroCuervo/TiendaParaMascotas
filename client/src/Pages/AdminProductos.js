@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
+import Swal from "sweetalert2"; // Importa SweetAlert2
 import api from "../api/api";
 import "../styles/AdminProductos.css";
 
@@ -7,13 +8,33 @@ const AdminProductos = () => {
   const navigate = useNavigate();
   const [products, setProducts] = React.useState([]);
 
-  const hadleEliminar = async (id) => {
+  const handleEliminar = async (id) => {
     try {
-      await api.delete(`http://localhost:3001/eliminarProducto/${id}`);
-      setProducts(products.filter((product) => product.id !== id));
-      alert("Producto eliminado");
+      // Mostrar alerta de confirmación
+      const result = await Swal.fire({
+        title: "¿Desea eliminar este producto?",
+        text: "Esta acción no se puede deshacer.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+      });
+
+      if (result.isConfirmed) {
+        // Eliminar el producto si se confirma
+        await api.delete(`http://localhost:3001/eliminarProducto/${id}`);
+        setProducts(products.filter((product) => product.id !== id));
+
+        // Mostrar mensaje de éxito
+        Swal.fire("Eliminado", "El producto ha sido eliminado.", "success");
+      }
     } catch (error) {
       console.error("Error al eliminar el producto:", error);
+
+      // Mostrar mensaje de error
+      Swal.fire("Error", "No se pudo eliminar el producto.", "error");
     }
   };
 
@@ -23,7 +44,7 @@ const AdminProductos = () => {
         product.id === updatedProduct.id ? updatedProduct : product
       )
     );
-  }
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -34,10 +55,9 @@ const AdminProductos = () => {
         console.error("Error al obtener los productos:", error);
       }
     };
-  
+
     fetchProducts();
   }, []);
-  
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -47,7 +67,7 @@ const AdminProductos = () => {
     <div className="container">
       <div className="row">
         <div className="col-6 text-start">
-          <h1 className="titH" >Todos Los Productos</h1>
+          <h1 className="titH">Todos Los Productos</h1>
         </div>
         <div className=" text-end ms-3">
           <button
@@ -57,12 +77,14 @@ const AdminProductos = () => {
           >
             Agregar Producto
           </button>
-
         </div>
       </div>
       <div className="row">
         <div className="col-12">
-          <table className="table table-bordered" style={{ borderColor: "#004AAD" }}>
+          <table
+            className="table table-bordered"
+            style={{ borderColor: "#004AAD" }}
+          >
             <thead>
               <tr>
                 <th scope="col">id</th>
@@ -85,33 +107,36 @@ const AdminProductos = () => {
                   <td>{product.categoria}</td>
                   <td>${product.precio}</td>
                   <td>
-                    {" "}
                     <img
                       src={product.imagen_url}
                       alt={product.nombre}
-                      className=" object-cover " style={{ width: "100px", height: "100px" }}
+                      className=" object-cover "
+                      style={{ width: "100px", height: "100px" }}
                     />
                   </td>
                   <td>{product.stock}</td>
                   <td>
-                    <a
-                      href={`/AdminEditar/${product.id}`}
+                    <button
+                      onClick={() =>
+                        handleNavigate(`/AdminEditar/${product.id}`)
+                      }
                       type="button"
                       className="btn"
                       style={{ color: "#002D6A" }}
                     >
                       Editar
-                    </a>
+                    </button>
                   </td>
+
                   <td>
-                    <a
-                      onClick={() => hadleEliminar(product.id)}
+                    <button
+                      onClick={() => handleEliminar(product.id)}
                       type="button"
                       className="btn"
                       style={{ color: "#002D6A" }}
                     >
                       Eliminar
-                    </a>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -122,5 +147,5 @@ const AdminProductos = () => {
     </div>
   );
 };
-export default AdminProductos;
 
+export default AdminProductos;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
+import Swal from "sweetalert2";
 import "../styles/Login&Register.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import useAuthRedirect from "../hook/useAuthRendirect";
@@ -10,16 +11,24 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogin = async () => {
     if (!email.trim()) {
-      setErrorMessage("Por favor, ingrese un correo electrónico.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Por favor, ingrese un correo electrónico.",
+      });
       console.log("Error: Correo electrónico vacío");
       return;
     }
+
     if (!password.trim()) {
-      setErrorMessage("Por favor, ingrese una contraseña.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Por favor, ingrese una contraseña.",
+      });
       console.log("Error: Contraseña vacía");
       return;
     }
@@ -31,30 +40,45 @@ const Login = () => {
 
       const { message, role, token } = response.data;
 
-// Asegúrate de desestructurar correctamente `role`
-const { id: usuarioId, rol } = role;
+      // Asegúrate de desestructurar correctamente `role`
+      const { id: usuarioId, rol } = role;
 
-if (message === "Usuario validado") {
-  localStorage.setItem("token", token);
-  localStorage.setItem("usuarioId", usuarioId);
-  localStorage.setItem("rol", rol); // Aquí guardamos el rol del usuario
+      if (message === "Usuario validado") {
+        localStorage.setItem("token", token);
+        localStorage.setItem("usuarioId", usuarioId);
+        localStorage.setItem("rol", rol); // Aquí guardamos el rol del usuario
 
-  console.log("Usuario ID y rol guardado en localStorage:", usuarioId, rol);
+        console.log("Usuario ID y rol guardado en localStorage:", usuarioId, rol);
 
-  if (rol === "administrador") {
-    navigate("/AdminHome");
-    console.log("Redirigiendo a /AdminHome");
-  } else if (rol === "User" || rol === "cliente") {
-    navigate("/");
-    console.log("Redirigiendo a /");
-  }
-} else {
-  setErrorMessage("Credenciales incorrectas");
-  console.log("Credenciales incorrectas");
-}
-
+        Swal.fire({
+          icon: "success",
+          title: "Inicio de sesión exitoso",
+          text: "¡Bienvenido!",
+          timer: 2000,
+          showConfirmButton: false,
+        }).then(() => {
+          if (rol === "administrador") {
+            navigate("/AdminHome");
+            console.log("Redirigiendo a /AdminHome");
+          } else if (rol === "User" || rol === "cliente") {
+            navigate("/");
+            console.log("Redirigiendo a /");
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Credenciales incorrectas. Por favor, intenta nuevamente.",
+        });
+        console.log("Credenciales incorrectas");
+      }
     } catch (error) {
-      setErrorMessage("Error en el servidor, por favor intente más tarde.");
+      Swal.fire({
+        icon: "error",
+        title: "Error del servidor",
+        text: "Hubo un problema al iniciar sesión. Por favor, intenta más tarde.",
+      });
       console.error("Error de autenticación:", error);
     }
   };
@@ -63,9 +87,7 @@ if (message === "Usuario validado") {
     <div className="containerLogin">
       <div className="card-body">
         <h2 style={{ color: "#004AAD" }}>¡Bienvenidos de nuevo!</h2>
-        <br/>
-
-        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        <br />
 
         <div className="form-outline mb-4">
           <label className="form-label" htmlFor="loginName">

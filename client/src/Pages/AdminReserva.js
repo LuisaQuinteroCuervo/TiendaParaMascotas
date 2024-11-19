@@ -39,7 +39,7 @@ const AdminReserva = () => {
       setReservas((prevReservas) =>
         prevReservas.map((reserva) =>
           reserva.id === reservaId
-            ? { ...reserva, estado: estadoNormalizado } // Asegúrate de actualizar la propiedad 'estado'
+            ? { ...reserva, estado: estadoNormalizado } 
             : reserva
         )
       );
@@ -81,6 +81,7 @@ const AdminReserva = () => {
                 <th scope="col">id</th>
                 <th scope="col">Usuario</th>
                 <th scope="col">Servicio seleccionado</th>
+                <th scope="col">Precio</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Hora</th>
                 <th scope="col">Estado</th>
@@ -94,11 +95,12 @@ const AdminReserva = () => {
       <th scope="row">{reserva.id}</th>
       <td>{reserva.nombre_usuario}</td>
       <td>{reserva.nombre_servicio || 'Servicio no disponible'}</td>
+      <td>{reserva.precio}</td>
       <td>{reserva.fecha}</td>
       <td>{reserva.hora}</td>
       <td>
       <select
-  value={reserva.estado} // Cambia 'nuevoEstado' a 'estado'
+  value={reserva.estado} 
   onChange={(e) => handleEstadoChange(reserva.id, e.target.value)} 
 >
 

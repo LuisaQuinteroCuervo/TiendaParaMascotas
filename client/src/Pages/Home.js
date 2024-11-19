@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -8,10 +9,12 @@ import ProductCard from "../Components/ProductCard";
 import carrusel1 from "../assets/img/carrusel1.png";
 import carrusel2 from "../assets/img/carrusel2.png";
 import carrusel3 from "../assets/img/carrusel3.png";
+import carrusel4 from "../assets/img/carrusel4.png";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -28,6 +31,11 @@ const Home = () => {
 
     fetchProducts();
   }, [category]); // Vuelve a cargar los productos cuando la categoría cambia
+
+
+  const handleNavigate = (path) => {
+    navigate(path)
+}
 
   return (
     <div className="Home">
@@ -53,6 +61,14 @@ const Home = () => {
         <Carousel.Item>
           <img
             src={carrusel3}
+            alt="Third slide"
+            style={{ width: "100%", height: "400px", objectFit: "cover" }}
+          />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            src={carrusel4}
+            onClick={() => handleNavigate("/CrearReservas")}
             alt="Third slide"
             style={{ width: "100%", height: "400px", objectFit: "cover" }}
           />
@@ -111,9 +127,10 @@ const Home = () => {
             <p>Explora entre miles de productos y servicios para consentir a tu amigo peludo.</p>
           </div>
 
-          <div className="palabras-section">
+          <div className="palabras-section" >
             <h2 style={{ color: "#004AAD" }}>Bienestar garantizado</h2>
             <p>Desde comida premium hasta juguetes irresistibles. Tu peludo lo vale.</p>
+            
           </div>
         </div>
       </div>
