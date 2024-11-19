@@ -53,7 +53,7 @@ const Register = () => {
   return (
     <div className="containerLogin">
       <div className="card-body">
-        <h2>¡Registrate ahora!</h2>
+        <h2 style={{ color: "#004AAD" }}>¡Registrate ahora!</h2>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
           <br></br>
 

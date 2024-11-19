@@ -69,6 +69,7 @@ app.post("/addUsuario", (req, res) => {
 });
 
 // login LISTO
+// login LISTO
 app.post("/validarUsuario", (req, res) => {
   try {
     const { email, password } = req.body;
@@ -119,7 +120,6 @@ app.post("/validarUsuario", (req, res) => {
     res.status(500).json({ message: "Error interno del servidor" });
   }
 });
-
 
 
 // ver productos administradores LISTO
@@ -198,7 +198,18 @@ app.get("/reservasUsuario/:usuarioId", (req, res) => {
   });
 });
 
+// ver reservas administradores LISTO
+app.get("/reservas", (req, res) => {
+  const sqlSelect = "SELECT * FROM VistaReservas";
+  db.query(sqlSelect, (err, result) => {
+    if (err) console.log(err);
+    else res.send(result);
+  });
+});
 
+
+
+// ver editar reseva usuario 
 app.post("/editarEstadoReserva", (req, res) => {
   const { reservaId, nuevoEstado } = req.body;
   const sqlCall = "CALL EditarEstadoReserva(?, ?);";
@@ -214,20 +225,11 @@ app.post("/editarEstadoReserva", (req, res) => {
 });
 
 
-// ver reservas administradores
-app.get("/reservas", (req, res) => {
-  const sqlSelect = "SELECT * FROM VistaReservas";
-  db.query(sqlSelect, (err, result) => {
-    if (err) console.log(err);
-    else res.send(result);
-  });
-});
 
 
 
 
-
-//ver productos clientes (ya tiene los filtros por categoria y disponibilidad)
+//ver productos clientes (ya tiene los filtros por categoria y disponibilidad) LISTO
 app.get("/productosPorCategoria", (req, res) => {
   const { categoria } = req.query;
   const sqlSelect = "CALL ObtenerProductosPorCategoria(?);";

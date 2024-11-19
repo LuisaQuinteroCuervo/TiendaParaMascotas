@@ -17,13 +17,14 @@ import PagosProducts from "./Pages/PagosProducts";
 import CrearReservas from "./Pages/CrearReservas";
 import VerReservas from "./Pages/VerReservas";
 
+
 ///Paginas Admin
 import AdminHome from "./Pages/AdminHome";
 import AdminProductos from "./Pages/AdminProductos";
 import AdminCrearProduct from "./Pages/AdminCrearProduct";
-
 import AdminGestionPedidos from "./Pages/AdminGestionPedidos";
 import AdminEditar from "./Pages/AdminEditar";
+import AdminReserva from "./Pages/AdminReserva";
 
 function App() {
   useEffect(() => {
@@ -54,14 +55,13 @@ function App() {
           <Route path="/AdminHome" element={<AdminHome />} />
           <Route path="/AdminProductos" element={<AdminProductos />} />
           <Route path="/AdminCrearProduct" element={<AdminCrearProduct />} />
-
-          <Route
-            path="/AdminGestionPedidos"
-            element={<AdminGestionPedidos />}
-          />
+          <Route path="/AdminGestionPedidos" element={<AdminGestionPedidos />} />
           <Route path="/AdminEditar/:id" element={<AdminEditar />} />
           <Route path="/CrearReservas" element={<CrearReservas />} />
           <Route path="/VerReservas/:usuarioId" element={<VerReservas />} />
+          <Route path="/AdminReserva" element={<AdminReserva />} />
+
+
         </Routes>
         <Footer />
       </BrowserRouter>

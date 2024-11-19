@@ -107,6 +107,7 @@ const AdminCrearProduct = () => {
             className="form-control"
             required
           >
+               <option value="">Seleccione una categoría</option>
             <option value="alimentos">Alimentos</option>
             <option value="juguetes">Juguetes</option>
             <option value="accesorios">Accesorios</option>

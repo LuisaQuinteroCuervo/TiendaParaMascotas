@@ -8,7 +8,7 @@ const VistaProduct = () => {
   const [descripcion, setDescripcion] = useState("");
   const [categoria, setCategoria] = useState("");
   const [precio, setPrecio] = useState(0);
-  const [imagenUrl, setImagenUrl] = useState("");
+  const [imagen_url, setImagen_url] = useState("");
   const [stock, setStock] = useState(0);
   const { id } = useParams();
   console.log(id);
@@ -24,7 +24,7 @@ const VistaProduct = () => {
       setDescripcion(response.data.descripcion);
       setCategoria(response.data.categoria);
       setPrecio(response.data.precio);
-      setImagenUrl(response.data.imagenUrl);
+      setImagen_url(response.data.imagen_url);
       setStock(response.data.stock);
     } catch (error) {
       console.error("Error al obtener el producto:", error);
@@ -48,13 +48,13 @@ const VistaProduct = () => {
 
   return (
     <div className="VistaProduct container">
-      <div className="card" style={{ borderColor: "#004AAD" }}>
+      <div className="card" style={{ borderColor: "#004AAD", width: "100%", height: "100vh", maxHeight: "calc(100vh - 150px)" }}>
         <div className="container-fluid">
           <div className="wrapper row">
             <div className="preview col-md-6">
               <div className="preview-pic tab-content">
                 <div className="tab-pane active" id="pic-1">
-                  <img src={imagenUrl} alt={nombre} style={{ width: "60%", height: "60%" }} />
+                  <img src={imagen_url} alt={nombre} style={{ width: "60%", height: "60%" }} />
                 </div>
                 
               </div>

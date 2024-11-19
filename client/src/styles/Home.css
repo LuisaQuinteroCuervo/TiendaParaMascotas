@@ -1,11 +1,4 @@
 
-.Carousel{
-    width: 100%;    
-    height: 250px;
-    padding: 10px;
-
-}
-
 /* Categorias*/
 
 .Categorias{
@@ -88,6 +81,7 @@
 
 .Productos{
     padding: 10px;
+    padding-right: 170px;
 
 }
 
@@ -108,3 +102,18 @@
     align-items: center; 
     text-align: center;
 }
+
+.Comunicado{
+  width: 100%;
+  height: 200px;
+  padding: 10px;
+}
+.palabras{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+

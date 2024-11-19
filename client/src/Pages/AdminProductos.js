@@ -57,13 +57,7 @@ const AdminProductos = () => {
           >
             Agregar Producto
           </button>
-          <button
-            className="btnAgregarP"
-            type="button"
-            onClick={() => handleNavigate("/AdminCrearProduct")}
-          >
-            Agregar Producto
-          </button>
+
         </div>
       </div>
       <div className="row">
@@ -93,9 +87,9 @@ const AdminProductos = () => {
                   <td>
                     {" "}
                     <img
-                      src={product.imagenUrl}
+                      src={product.imagen_url}
                       alt={product.nombre}
-                      className="w-10 h-10 object-cover "
+                      className=" object-cover " style={{ width: "100px", height: "100px" }}
                     />
                   </td>
                   <td>{product.stock}</td>

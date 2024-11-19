@@ -10,14 +10,14 @@ const Footer = () => {
             </div>
 
             <div className="info-section">
-                <h2>ACERCA DE MINKY</h2>
-                <p>Minky Colombia</p>
+                <h2 style={{ color: "#004AAD" }}>ACERCA DE MINKY</h2>
+                <p style={{ color: "black" }}>Minky Colombia</p>
                 <p>Minky Colombia</p>
                 <p>Términos y condiciones</p>
             </div>
 
             <div className="contact-section">
-                <h2>CONTÁCTENOS</h2>
+                <h2 style={{ color: "#004AAD" }}>CONTÁCTENOS</h2>
                 <p>Teléfono: 3125487548</p>
                 <p>Correo: minky_mascotas@gmail.com</p>
                 <p>Ibagué, Colombia</p>

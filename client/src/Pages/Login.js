@@ -37,8 +37,9 @@ const { id: usuarioId, rol } = role;
 if (message === "Usuario validado") {
   localStorage.setItem("token", token);
   localStorage.setItem("usuarioId", usuarioId);
+  localStorage.setItem("rol", rol); // Aquí guardamos el rol del usuario
 
-  console.log("Usuario ID guardado en localStorage:", usuarioId);
+  console.log("Usuario ID y rol guardado en localStorage:", usuarioId, rol);
 
   if (rol === "administrador") {
     navigate("/AdminHome");
@@ -61,7 +62,8 @@ if (message === "Usuario validado") {
   return (
     <div className="containerLogin">
       <div className="card-body">
-        <h2>¡Bienvenidos de nuevo!</h2>
+        <h2 style={{ color: "#004AAD" }}>¡Bienvenidos de nuevo!</h2>
+        <br/>
 
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 

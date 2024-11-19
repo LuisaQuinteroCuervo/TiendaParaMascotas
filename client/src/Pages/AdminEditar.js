@@ -10,7 +10,7 @@ const AdminEditar = () => {
   const [descripcion, setDescripcion] = useState("");
   const [categoria, setCategoria] = useState("");
   const [precio, setPrecio] = useState(0);
-  const [imagenUrl, setImagenUrl] = useState("");
+  const [imagen_url, setImagen_url] = useState("");
   const [stock, setStock] = useState(0);
   const { id } = useParams();
 
@@ -30,7 +30,7 @@ const AdminEditar = () => {
           descripcion,
           categoria,
           precio,
-          imagenUrl,
+          imagen_url,
           stock,
         }
       );
@@ -55,7 +55,7 @@ const AdminEditar = () => {
       setDescripcion(response.data.descripcion || "");
       setCategoria(response.data.categoria || "");
       setPrecio(response.data.precio || 0);
-      setImagenUrl(response.data.imagenUrl || "");
+      setImagen_url(response.data.imagen_url || "");
       setStock(response.data.stock || 0);
     } catch (error) {
       console.error("Error al obtener el producto:", error);
@@ -106,6 +106,7 @@ const AdminEditar = () => {
             className="form-control"
             required
           >
+            <option value="">Seleccione una categoría</option>
             <option value="alimentos">Alimentos</option>
             <option value="juguetes">Juguetes</option>
             <option value="accesorios">Accesorios</option>
@@ -132,9 +133,9 @@ const AdminEditar = () => {
           </label>
           <input
             type="text"
-            name="imagenUrl"
-            value={imagenUrl}
-            onChange={(e) => setImagenUrl(e.target.value)}
+            name="imagen_url"
+            value={imagen_url}
+            onChange={(e) => setImagen_url(e.target.value)}
             className="form-control"
           />
         </div>

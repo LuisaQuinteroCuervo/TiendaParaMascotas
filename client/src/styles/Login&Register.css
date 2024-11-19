@@ -2,11 +2,19 @@
     padding-left: 380px;
     padding-right: 380px;
     padding-top: 80px;
+    height: 500px;
+    background-image: url("../assets/img/fondologin.png");
 
 }
 
+
 .card-body{
+    background-color: #FFFFFF;
     border-color: #004AAD;
     border-style: solid;
     border-width: 1px;
+}
+
+.containerLogin{
+    background-color: #FFFFFF;
 }

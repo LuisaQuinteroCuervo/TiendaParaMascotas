@@ -7,7 +7,7 @@ const CrearReservas = () => {
   const navigate = useNavigate();
   
   const [newServicio, setNewServicio] = React.useState({
-    usuarioId: "", 
+    usuarioId: "",
     servicioId: "",
     fecha: "",
     hora: ""

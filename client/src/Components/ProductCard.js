@@ -11,7 +11,7 @@ const ProductCard = ({ product }) => {
       className="ProCard"
       style={{ textDecoration: "none", color: "inherit" }}
     >
-      <div className="card" style={{ width: "18rem" }}>
+      <div className="card" style={{ width: "300px", height: "420px" }}>
         {/* Validación de la imagen */}
         <img
           className="card-img-top"

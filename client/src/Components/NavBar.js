@@ -11,16 +11,26 @@ const NavBar = () => {
   const [searchText, setSearchText] = useState("");
   const handleLogout = (path) => {
     localStorage.removeItem("token");
+    localStorage.removeItem("rol");  // Eliminar el rol al cerrar sesión
     navigate(path);
   };
 
+  const userRole = localStorage.getItem("rol");  // Obtenemos el rol del usuario
 
+  // Función para redirigir al hacer clic en el logo
+  const handleLogoClick = () => {
+    if (userRole === "administrador") {
+      navigate("/AdminHome");
+    } else {
+      navigate("/Home");
+    }
+  };
 
   return (
     <Navbar className="header sticky-top" expand="lg" style={{ zIndex: 1000 }}>
       <Container>
-        <Navbar.Brand href="#">
-          <div className="logo" onClick={() => navigate("/Home")}></div>
+        <Navbar.Brand href="#" onClick={handleLogoClick}>
+          <div className="logo"></div>
         </Navbar.Brand>
         <input
           className="form-control inputBusqueda"
@@ -38,6 +48,7 @@ const NavBar = () => {
         >
           <FontAwesomeIcon icon={faSearch} />
         </button>
+
         {localStorage.getItem("token") ? (
           <Navbar.Collapse className="justify-content-end">
             <button
@@ -48,15 +59,24 @@ const NavBar = () => {
               Logout
             </button>
 
-            <button
-              className="botonNav"
-              type="button"
-              onClick={() => navigate('/CrearReservas')}
-            >
-              Reservas
-            </button>
+            {userRole === "administrador" ? (
+              <button
+                className="botonNav"
+                type="button"
+                onClick={() => navigate('/AdminReserva')}
+              >
+                Ver Reservas
+              </button>
+            ) : (
+              <button
+                className="botonNav"
+                type="button"
+                onClick={() => navigate('/CrearReservas')}
+              >
+                Reservas
+              </button>
+            )}
           </Navbar.Collapse>
-
         ) : (
           <>
             <Navbar.Collapse className="justify-content-end">
@@ -89,14 +109,7 @@ const NavBar = () => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-
   );
 };
 
 export default NavBar;
-
-
-
-
-
-   

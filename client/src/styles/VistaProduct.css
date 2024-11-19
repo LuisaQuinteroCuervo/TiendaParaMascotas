@@ -1,12 +1,12 @@
-.VistaProduct{
+.VistaProduct {
     display: flex;
-    flex-wrap: wrap; 
-    justify-content: center;   
+    flex-wrap: wrap;
+    justify-content: center;
     margin-top: 15px;
-    height:450px;
+    max-height: calc(100vh - 150px);
     border-color: #004AAD;
+    overflow-y: auto;
 }
-
 .container2{
     width: 100%;
     max-width: 1100px;  
